@@ -13,7 +13,6 @@ public class MantenimientoRequest {
 
     private Long equipoId;
     private String descripcion;
-    private String estado;
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
 

@@ -32,7 +32,7 @@ public class MantenimientoController {
         return mantenimientoService.buscarPorId(id);
     }
 
-    // UPDATE
+
     @PutMapping("/{id}")
     public MantenimientoResponse actualizar(
             @PathVariable Long id,
@@ -41,10 +41,15 @@ public class MantenimientoController {
         return mantenimientoService.actualizar(id, request);
     }
 
-    // DELETE
+
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id){
         mantenimientoService.eliminar(id);
+    }
+
+    @PutMapping("/{id}")
+    public MantenimientoResponse actualizarEstado(@PathVariable Long id){
+        return mantenimientoService.cambiarEstado(id);
     }
 }
 

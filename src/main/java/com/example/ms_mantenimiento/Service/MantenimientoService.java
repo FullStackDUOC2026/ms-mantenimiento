@@ -35,18 +35,16 @@ public class MantenimientoService {
 
         mantenimiento.setEquipoId(request.getEquipoId());
         mantenimiento.setDescripcion(request.getDescripcion());
-        mantenimiento.setEstado(request.getEstado());
+        mantenimiento.setEstado("activo");
         mantenimiento.setFechaIngreso(request.getFechaIngreso());
         mantenimiento.setFechaSalida(request.getFechaSalida());
 
         Mantenimiento saved = mantenimientoRepository.save(mantenimiento);
 
-        // 🔥 AQUÍ ESTÁ EL CAMBIO
         equiposClient.marcarMantencion(request.getEquipoId());
 
         return mapToResponse(saved);
     }
-    // LISTAR TODOS
     public List<MantenimientoResponse> listar(){
 
         return mantenimientoRepository.findAll()
@@ -55,7 +53,7 @@ public class MantenimientoService {
                 .collect(Collectors.toList());
     }
 
-    // BUSCAR POR ID
+
     public MantenimientoResponse buscarPorId(Long id){
 
         Mantenimiento mantenimiento = mantenimientoRepository.findById(id)
@@ -64,7 +62,7 @@ public class MantenimientoService {
         return mapToResponse(mantenimiento);
     }
 
-    // ACTUALIZAR
+
     public MantenimientoResponse actualizar(Long id, MantenimientoRequest request){
 
         Mantenimiento mantenimiento = mantenimientoRepository.findById(id)
@@ -72,7 +70,6 @@ public class MantenimientoService {
 
         mantenimiento.setEquipoId(request.getEquipoId());
         mantenimiento.setDescripcion(request.getDescripcion());
-        mantenimiento.setEstado(request.getEstado());
         mantenimiento.setFechaIngreso(request.getFechaIngreso());
         mantenimiento.setFechaSalida(request.getFechaSalida());
 
@@ -81,12 +78,11 @@ public class MantenimientoService {
         return mapToResponse(updated);
     }
 
-    // ELIMINAR
+
     public void eliminar(Long id){
         mantenimientoRepository.deleteById(id);
     }
 
-    // MAPPER (Entity → DTO)
     private MantenimientoResponse mapToResponse(Mantenimiento m){
 
         MantenimientoResponse response = new MantenimientoResponse();
@@ -99,5 +95,23 @@ public class MantenimientoService {
         response.setFechaSalida(m.getFechaSalida());
 
         return response;
+    }
+
+    public MantenimientoResponse cambiarEstado(Long id){
+
+        Mantenimiento mantenimiento = mantenimientoRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("mantenimiento no encontrado"));
+
+        mantenimiento.setEstado("finalizado");
+
+        mantenimientoRepository.save(mantenimiento);
+
+        return MantenimientoResponse.builder()
+                .equipoId(mantenimiento.getEquipoId())
+                .descripcion(mantenimiento.getDescripcion())
+                .estado(mantenimiento.getEstado())
+                .fechaIngreso(mantenimiento.getFechaIngreso())
+                .fechaSalida(mantenimiento.getFechaSalida())
+                .build();
     }
 }
