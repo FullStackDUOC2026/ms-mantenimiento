@@ -16,7 +16,7 @@ public class EquiposClient {
     public EquiposDTO getEquipoById(Long id) {
 
         return webClient.get()
-                .uri("http://localhost:8081/equipos/" + id)
+                .uri("ms-equipo-production.up.railway.app/equipos/" + id)
                 .retrieve()
                 .bodyToMono(EquiposDTO.class)
                 .block();
@@ -25,7 +25,7 @@ public class EquiposClient {
     public EquiposDTO marcarMantencion(Long id) {
 
         return webClient.put()
-                .uri("http://localhost:8081/equipos/" + id + "/mantencion")
+                .uri("ms-equipo-production.up.railway.app/equipos/" + id + "/mantencion")
                 .retrieve()
                 .bodyToMono(EquiposDTO.class)
                 .block();
