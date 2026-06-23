@@ -47,7 +47,7 @@ public class MantenimientoController {
         mantenimientoService.eliminar(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/estado/{id}")
     public MantenimientoResponse actualizarEstado(@PathVariable Long id){
         return mantenimientoService.cambiarEstado(id);
     }
